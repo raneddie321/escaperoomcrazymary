@@ -270,6 +270,33 @@
   filter: drop-shadow(0 0 34px color-mix(in oklab, var(--accent) 18%, transparent));
   mix-blend-mode: screen;
 }
+.side-scare-frame {
+  position: relative;
+  width: min(37vw, 560px);
+  aspect-ratio: 4 / 5;
+  transform: rotate(-3deg) skewY(-1deg);
+  clip-path: polygon(9% 0, 100% 7%, 91% 100%, 0 88%);
+  overflow: hidden;
+  border: 1px solid color-mix(in oklab, var(--accent) 34%, transparent);
+  box-shadow:
+    0 0 0 1px color-mix(in oklab, var(--primary) 18%, transparent),
+    0 32px 110px -34px color-mix(in oklab, var(--primary) 84%, transparent);
+}
+.side-scare-frame::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, var(--background), transparent 34%, transparent 70%, var(--background)),
+    radial-gradient(ellipse at center, transparent 22%, color-mix(in oklab, var(--background) 68%, transparent) 84%);
+}
+.side-scare-image {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  filter: contrast(1.18) saturate(0.9);
+  transform: scale(1.08) rotate(2deg);
+}
 .poster-card {
   transform: rotate(-1.25deg);
 }
@@ -290,6 +317,61 @@
   box-shadow:
     inset 0 1px 0 color-mix(in oklab, white 10%, transparent),
     0 28px 95px -34px color-mix(in oklab, var(--primary) 85%, transparent);
+}
+.booking-preview {
+  box-shadow: 0 20px 90px -44px color-mix(in oklab, var(--primary) 80%, transparent);
+}
+.booking-shell {
+  overflow: hidden;
+  border: 1px solid color-mix(in oklab, var(--accent) 28%, var(--border));
+  border-radius: 0.5rem;
+  background:
+    linear-gradient(135deg, color-mix(in oklab, var(--card) 88%, transparent), color-mix(in oklab, var(--background) 82%, transparent)),
+    color-mix(in oklab, var(--card) 88%, black 12%);
+  box-shadow:
+    inset 0 1px 0 color-mix(in oklab, white 8%, transparent),
+    0 30px 110px -54px color-mix(in oklab, var(--primary) 80%, transparent);
+}
+.booking-step {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  min-height: 3.75rem;
+  border: 1px solid color-mix(in oklab, var(--border) 78%, transparent);
+  border-radius: 0.375rem;
+  background: color-mix(in oklab, var(--background) 54%, transparent);
+  color: var(--muted-foreground);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  transition: border-color 200ms ease, color 200ms ease, background 200ms ease;
+}
+.booking-step.is-active {
+  border-color: color-mix(in oklab, var(--primary) 72%, var(--accent));
+  background: color-mix(in oklab, var(--primary) 12%, var(--background));
+  color: var(--foreground);
+}
+.booking-option {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid color-mix(in oklab, var(--border) 78%, transparent);
+  border-radius: 0.375rem;
+  background: color-mix(in oklab, var(--background) 58%, transparent);
+  color: var(--foreground);
+  padding: 1rem;
+  text-align: center;
+  transition: transform 200ms ease, border-color 200ms ease, box-shadow 200ms ease, background 200ms ease;
+}
+.booking-option:hover,
+.booking-option.is-selected {
+  transform: translateY(-2px);
+  border-color: color-mix(in oklab, var(--primary) 78%, var(--accent));
+  background: color-mix(in oklab, var(--primary) 13%, var(--background));
+  box-shadow: 0 18px 50px -30px color-mix(in oklab, var(--primary) 85%, transparent);
 }
 @keyframes flicker {
   0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {

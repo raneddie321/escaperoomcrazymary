@@ -69,15 +69,17 @@ function HomeContent() {
             <div className="absolute inset-0 bg-[linear-gradient(90deg,var(--background)_0%,color-mix(in_oklab,var(--background)_78%,transparent)_34%,color-mix(in_oklab,var(--background)_35%,transparent)_58%,var(--background)_100%)]" />
             <div className="absolute inset-0 bg-[linear-gradient(180deg,color-mix(in_oklab,var(--background)_42%,transparent)_0%,color-mix(in_oklab,var(--background)_62%,transparent)_58%,var(--background)_100%)]" />
           </div>
-          <div className="absolute inset-y-0 left-0 -z-10 hidden w-[46%] items-center justify-center md:flex">
-            <img
-              src={fearGhostImage}
-              alt=""
-              aria-hidden
-              className="ghost-mark w-[min(34vw,520px)] max-w-none opacity-65"
-              width={410}
-              height={202}
-            />
+          <div className="absolute inset-y-0 left-0 -z-10 hidden w-[48%] items-center justify-center md:flex">
+            <div className="side-scare-frame">
+              <img
+                src={roomImage(rooms[3] ?? rooms[0])}
+                alt=""
+                aria-hidden
+                className="side-scare-image"
+                width={1200}
+                height={750}
+              />
+            </div>
           </div>
           <div className="mx-auto grid min-h-[calc(100svh-76px)] max-w-7xl items-center gap-10 px-4 py-16 sm:px-6 sm:py-20 md:grid-cols-[1fr_0.74fr] md:py-24">
             <div className="max-w-3xl text-center md:text-right">

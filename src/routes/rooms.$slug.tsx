@@ -4,7 +4,7 @@ import { Suspense } from "react";
 import { roomsQuery, settingsQuery, roomImage, whatsappHref, telHref } from "@/lib/site-data";
 import { SiteNav, SiteFooter } from "@/components/site-nav";
 import { FloatingActions } from "@/components/floating-actions";
-import { Flame, Timer, Users, Clock, Phone, MessageCircle, Tag, UserCheck, ArrowRight } from "lucide-react";
+import { Flame, Timer, Users, Clock, Phone, MessageCircle, Tag, UserCheck, ArrowRight, CalendarDays } from "lucide-react";
 
 export const Route = createFileRoute("/rooms/$slug")({
   loader: async ({ context, params }) => {
@@ -139,6 +139,9 @@ function RoomPage() {
               <h2 className="font-display text-lg uppercase tracking-widest">הזמנה</h2>
               <div className="ember-divider mt-3 w-24" />
               <div className="mt-4 flex flex-col gap-3">
+                <Link to="/booking/$slug" params={{ slug: room.slug }} className="btn btn-primary">
+                  <CalendarDays className="h-4 w-4" aria-hidden /> הזמנת תור
+                </Link>
                 {settings.whatsapp && (
                   <a href={wa} target="_blank" rel="noreferrer" className="btn btn-whatsapp">
                     <MessageCircle className="h-4 w-4" aria-hidden /> וואטסאפ להזמנה
