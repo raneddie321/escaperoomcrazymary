@@ -82,11 +82,37 @@
     font-feature-settings: "ss01", "cv01";
     -webkit-font-smoothing: antialiased;
     background-image:
-      radial-gradient(ellipse at 15% -5%, oklch(0.35 0.18 25 / 0.35), transparent 50%),
-      radial-gradient(ellipse at 85% 105%, oklch(0.3 0.14 45 / 0.28), transparent 55%),
-      radial-gradient(ellipse at 50% 40%, oklch(0.15 0.02 20 / 0.4), transparent 70%);
+      radial-gradient(ellipse at 15% -5%, oklch(0.42 0.18 20 / 0.42), transparent 48%),
+      radial-gradient(ellipse at 85% 105%, oklch(0.32 0.16 35 / 0.35), transparent 56%),
+      radial-gradient(ellipse at 50% 35%, oklch(0.20 0.06 15 / 0.55), transparent 72%);
     background-attachment: fixed;
     min-height: 100vh;
+    position: relative;
+  }
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background:
+      linear-gradient(180deg, transparent, oklch(0.02 0.02 20 / 0.45)),
+      repeating-linear-gradient(
+        to bottom,
+        oklch(1 0 0 / 0.015) 0,
+        oklch(1 0 0 / 0.015) 1px,
+        transparent 1px,
+        transparent 4px
+      );
+    opacity: 0.65;
+    mix-blend-mode: screen;
+  }
+  body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(circle at 50% 0%, oklch(0.7 0.22 25 / 0.12), transparent 45%);
+    opacity: 0.8;
   }
   h1, h2, h3, h4 {
     font-family: var(--font-display);

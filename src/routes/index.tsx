@@ -9,10 +9,10 @@ import { KeyRound, Users, Timer, Flame, Instagram } from "lucide-react";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Crazy Mary — חדרי בריחה בירושלים" },
-      { name: "description", content: "מתחם 4 חדרי בריחה בירושלים: מבוך הפחד, הקבר, מחבואים בחושך ו-Zombie Shot. אווירה קולנועית, אתגרים חכמים." },
-      { property: "og:title", content: "Crazy Mary — חדרי בריחה בירושלים" },
-      { property: "og:description", content: "מתחם 4 חדרי בריחה בירושלים: מבוך הפחד, הקבר, מחבואים בחושך ו-Zombie Shot. אווירה קולנועית, אתגרים חכמים." },
+      { title: "Crazy Mary — מתחם הפחד של ישראל בירושלים" },
+      { name: "description", content: "Crazy Mary הוא מתחם הפחד של ישראל בירושלים — מבוך הפחד הגדול ביותר בישראל כבר 13 שנה עם 2 קומות, והקבר, מחבואים בחושך ו-Zombie Shot כאטרקציות חדשות ומפחידות." },
+      { property: "og:title", content: "Crazy Mary — מתחם הפחד של ישראל" },
+      { property: "og:description", content: "מבוך הפחד הגדול ביותר בישראל כבר 13 שנה, עם 2 קומות; הקבר הוא חדר בריחה מפחיד עם שחקן, ומחבואים בחושך ו-Zombie Shot מוסיפים אימה חדשה ומרשימה." },
       { property: "og:url", content: "/" },
     ],
     links: [{ rel: "canonical", href: "/" }],
@@ -23,7 +23,7 @@ export const Route = createFileRoute("/")({
           "@context": "https://schema.org",
           "@type": "LocalBusiness",
           name: "Crazy Mary Jerusalem",
-          description: "מתחם חדרי בריחה בירושלים",
+          description: "מתחם הפחד של ישראל בירושלים — מבוך הפחד הגדול ביותר בישראל עם 2 קומות, והקבר, מחבואים בחושך ו-Zombie Shot כאטרקציות חדשות ומפחידות.",
           address: { "@type": "PostalAddress", addressLocality: "ירושלים", addressCountry: "IL" },
           sameAs: ["https://www.instagram.com/crazy_mary_jerusalem/"],
         }),
@@ -71,7 +71,7 @@ function HomeContent() {
           </div>
           <div className="mx-auto flex max-w-6xl flex-col items-center px-4 py-16 text-center sm:px-6 sm:py-24 md:py-40">
             <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-accent/40 bg-accent/5 px-3 py-1 text-[9px] uppercase tracking-[0.3em] text-accent sm:mb-6 sm:px-4 sm:py-1.5 sm:text-[11px] sm:tracking-[0.4em]">
-              <Flame className="h-3 w-3 sm:h-3.5 sm:w-3.5" aria-hidden /> Jerusalem · Escape Rooms
+              <Flame className="h-3 w-3 sm:h-3.5 sm:w-3.5" aria-hidden /> Jerusalem · מתחם הפחד של ישראל
             </div>
 
             <h1
@@ -81,10 +81,10 @@ function HomeContent() {
               CRAZY&nbsp;MARY
             </h1>
             <div className="mt-4 font-display text-[11px] uppercase tracking-[0.35em] text-accent sm:mt-6 sm:text-sm sm:tracking-[0.5em] md:text-base">
-              {settings.hero_title}
+              מבוך הפחד הגדול ביותר בישראל כבר 13 שנה
             </div>
-            <p className="mt-4 max-w-xl text-sm leading-relaxed text-muted-foreground sm:mt-5 sm:text-base md:text-lg">
-              {settings.hero_subtitle}
+            <p className="mt-4 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:mt-5 sm:text-base md:text-lg">
+              מבוך הפחד הוא האטרקציה המקורית של מתחם Crazy Mary — 2 קומות של אימה, חידות ומתח, ואיתו גם הקבר, מחבואים בחושך ו-Zombie Shot, האטרקציות החדשות שמוסיפות עוד שכבת אימה ועניין.
             </p>
             <div className="mt-8 flex flex-wrap justify-center gap-3 sm:mt-10">
               <a href="#rooms" className="btn btn-primary btn-lg">
@@ -101,10 +101,10 @@ function HomeContent() {
         <section aria-label="נתונים" className="border-y border-border/40 bg-background/60 backdrop-blur">
           <div className="mx-auto grid max-w-6xl grid-cols-2 gap-4 px-4 py-6 text-center sm:gap-6 sm:px-6 sm:py-8 md:grid-cols-4">
             {[
-              { k: "4", v: "חדרי בריחה" },
-              { k: "60′", v: "משחק אינטנסיבי" },
-              { k: "2–8", v: "שחקנים לחדר" },
-              { k: "18+", v: "אווירה קולנועית" },
+              { k: "13", v: "שנים של אימה" },
+              { k: "2", v: "קומות של מבוך" },
+              { k: "4", v: "אטרקציות מפחידות" },
+              { k: "18+", v: "חוויה קולנועית" },
             ].map((s) => (
               <div key={s.v}>
                 <div className="font-display text-3xl text-glow md:text-4xl" style={{ color: "var(--primary)" }}>{s.k}</div>
@@ -119,10 +119,10 @@ function HomeContent() {
           <div className="mb-10 text-center sm:mb-16">
             <div className="ornament-divider mx-auto max-w-md text-[9px] uppercase tracking-[0.4em] sm:text-[10px] sm:tracking-[0.5em]">◆ 4 חדרים · 4 עולמות ◆</div>
             <h2 className="mt-5 font-display text-2xl uppercase tracking-[0.1em] text-neon sm:mt-6 sm:text-4xl sm:tracking-[0.15em] md:text-6xl">
-              בחרו את הגורל שלכם
+              בחרו את החוויה המפחידה שלכם
             </h2>
-            <p className="mx-auto mt-3 max-w-xl text-sm text-muted-foreground sm:mt-4 md:text-base">
-              ארבע חוויות עצמאיות. אווירה קולנועית, פאזלים חכמים, ואפקטים שמפחידים באמת.
+            <p className="mx-auto mt-3 max-w-2xl text-sm text-muted-foreground sm:mt-4 md:text-base">
+              המבוך הפחד הוא האטרקציה המקורית והגדולה בישראל, עם 2 קומות של מתח, והקבר, מחבואים בחושך ו-Zombie Shot ממשיכים את המתח עם חוויה אחת חדשה ומרגשת.
             </p>
           </div>
 
