@@ -236,9 +236,13 @@
   inset: 0;
   z-index: -2;
   background:
-    linear-gradient(135deg, color-mix(in oklab, var(--background) 88%, transparent), color-mix(in oklab, var(--background) 72%, transparent)),
-    url("https://cdn.pixabay.com/photo/2018/06/14/08/02/cemetery-3474265_1280.jpg") center/cover no-repeat;
-  opacity: 0.22;
+    radial-gradient(circle at 18% 18%, color-mix(in oklab, var(--accent) 16%, transparent), transparent 32%),
+    radial-gradient(circle at 82% 8%, color-mix(in oklab, var(--primary) 18%, transparent), transparent 38%),
+    linear-gradient(135deg, color-mix(in oklab, var(--background) 88%, transparent), color-mix(in oklab, var(--background) 68%, transparent)),
+    linear-gradient(180deg, color-mix(in oklab, var(--background) 26%, transparent), color-mix(in oklab, var(--background) 80%, transparent));
+  background-size: cover;
+  background-position: center;
+  opacity: 0.92;
 }
 .section-panel::after {
   content: "";
@@ -246,8 +250,9 @@
   inset: 0;
   z-index: -1;
   background:
-    radial-gradient(circle at top, color-mix(in oklab, var(--accent) 16%, transparent), transparent 38%),
-    linear-gradient(180deg, color-mix(in oklab, var(--background) 36%, transparent), color-mix(in oklab, var(--background) 88%, transparent));
+    radial-gradient(circle at top, color-mix(in oklab, var(--accent) 18%, transparent), transparent 40%),
+    linear-gradient(180deg, color-mix(in oklab, var(--background) 20%, transparent), color-mix(in oklab, var(--background) 92%, transparent));
+  opacity: 0.92;
 }
 @keyframes flicker {
   0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {

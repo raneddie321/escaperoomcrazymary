@@ -22,6 +22,9 @@ function AdminPage() {
   const { data, isLoading, refetch } = useQuery({
     queryKey: ["admin-session"],
     queryFn: () => check(),
+    staleTime: 30_000,
+    gcTime: 5 * 60 * 1000,
+    retry: false,
   });
 
   if (isLoading) {
