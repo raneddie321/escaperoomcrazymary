@@ -90,11 +90,15 @@ export async function fetchSettings(): Promise<SiteSettings> {
 export const roomsQuery = {
   queryKey: ["rooms"] as const,
   queryFn: fetchRooms,
+  staleTime: 5 * 60 * 1000,
+  gcTime: 30 * 60 * 1000,
 };
 
 export const settingsQuery = {
   queryKey: ["settings"] as const,
   queryFn: fetchSettings,
+  staleTime: 5 * 60 * 1000,
+  gcTime: 30 * 60 * 1000,
 };
 
 export function whatsappHref(s: Pick<SiteSettings, "whatsapp" | "whatsapp_message">, extra?: string) {
