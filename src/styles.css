@@ -225,6 +225,30 @@
 @utility flicker {
   animation: flicker 4.5s infinite;
 }
+.section-panel {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+.section-panel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background:
+    linear-gradient(135deg, color-mix(in oklab, var(--background) 88%, transparent), color-mix(in oklab, var(--background) 72%, transparent)),
+    url("https://cdn.pixabay.com/photo/2018/06/14/08/02/cemetery-3474265_1280.jpg") center/cover no-repeat;
+  opacity: 0.22;
+}
+.section-panel::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(circle at top, color-mix(in oklab, var(--accent) 16%, transparent), transparent 38%),
+    linear-gradient(180deg, color-mix(in oklab, var(--background) 36%, transparent), color-mix(in oklab, var(--background) 88%, transparent));
+}
 @keyframes flicker {
   0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
     opacity: 1;
