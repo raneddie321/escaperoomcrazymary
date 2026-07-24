@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Menu, X, Instagram, Facebook, Music2, Phone, Clock, MapPin, Mail } from "lucide-react";
 import type { SiteSettings } from "@/lib/site-data";
 
-export function SiteNav({ instagram }: { instagram?: string }) {
+export function SiteNav({ settings }: { settings: SiteSettings }) {
   const [open, setOpen] = useState(false);
   const links = [
     { to: "/", label: "בית" },
@@ -11,6 +11,12 @@ export function SiteNav({ instagram }: { instagram?: string }) {
     { to: "/about", label: "אודות" },
     { to: "/contact", label: "יצירת קשר" },
   ] as const;
+
+  const socials = [
+    settings.instagram && { href: settings.instagram, label: "Instagram", icon: Instagram },
+    settings.facebook && { href: settings.facebook, label: "Facebook", icon: Facebook },
+    settings.tiktok && { href: settings.tiktok, label: "TikTok", icon: Music2 },
+  ].filter(Boolean) as { href: string; label: string; icon: typeof Instagram }[];
 
   return (
     <header className="sticky top-0 z-50 border-b border-border/40 bg-background/70 backdrop-blur-xl">
@@ -37,17 +43,21 @@ export function SiteNav({ instagram }: { instagram?: string }) {
               {l.label}
             </Link>
           ))}
-          {instagram && (
-            <a
-              href={instagram}
-              target="_blank"
-              rel="noreferrer"
-              className="text-muted-foreground transition-colors hover:text-accent"
-              aria-label="פרופיל אינסטגרם"
-            >
-              <Instagram className="h-5 w-5" aria-hidden />
-            </a>
-          )}
+          {socials.map((social) => {
+            const Icon = social.icon;
+            return (
+              <a
+                key={social.label}
+                href={social.href}
+                target="_blank"
+                rel="noreferrer"
+                className="text-muted-foreground transition-colors hover:text-accent"
+                aria-label={social.label}
+              >
+                <Icon className="h-5 w-5" aria-hidden />
+              </a>
+            );
+          })}
         </nav>
         <button
           className="md:hidden text-foreground min-h-11 min-w-11 flex items-center justify-center"
@@ -72,16 +82,23 @@ export function SiteNav({ instagram }: { instagram?: string }) {
                 {l.label}
               </Link>
             ))}
-            {instagram && (
-              <a
-                href={instagram}
-                target="_blank"
-                rel="noreferrer"
-                className="flex items-center gap-2 rounded px-3 py-3 text-sm uppercase tracking-widest text-muted-foreground hover:bg-secondary hover:text-accent"
-              >
-                <Instagram className="h-5 w-5" aria-hidden /> Instagram
-              </a>
-            )}
+            <div className="mt-2 flex items-center gap-3 px-3">
+              {socials.map((social) => {
+                const Icon = social.icon;
+                return (
+                  <a
+                    key={social.label}
+                    href={social.href}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="rounded-full border border-border/70 p-2 text-muted-foreground transition-colors hover:border-accent hover:text-accent"
+                    aria-label={social.label}
+                  >
+                    <Icon className="h-5 w-5" aria-hidden />
+                  </a>
+                );
+              })}
+            </div>
           </nav>
         </div>
       )}

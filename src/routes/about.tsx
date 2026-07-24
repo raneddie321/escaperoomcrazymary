@@ -23,7 +23,7 @@ function AboutContent() {
   const { data: settings } = useSuspenseQuery(settingsQuery);
   return (
     <div className="min-h-screen">
-      <SiteNav instagram={settings.instagram} />
+      <SiteNav settings={settings} />
       <main id="main">
         <section className="relative isolate overflow-hidden">
           <div className="absolute inset-0 -z-10">

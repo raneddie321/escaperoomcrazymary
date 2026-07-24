@@ -53,7 +53,7 @@ function HomeContent() {
 
   return (
     <div className="min-h-screen">
-      <SiteNav instagram={settings.instagram} />
+      <SiteNav settings={settings} />
       <main id="main">
         {/* Hero */}
         <section className="relative isolate overflow-hidden">

@@ -36,7 +36,7 @@ function ContactContent() {
 
   return (
     <div className="min-h-screen">
-      <SiteNav instagram={s.instagram} />
+      <SiteNav settings={s} />
       <main id="main">
         <section className="mx-auto max-w-5xl px-6 py-20">
           <div className="text-center">

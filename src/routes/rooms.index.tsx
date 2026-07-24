@@ -34,7 +34,7 @@ function RoomsContent() {
 
   return (
     <div className="min-h-screen">
-      <SiteNav instagram={settings.instagram} />
+      <SiteNav settings={settings} />
       <main id="main">
         <section className="mx-auto max-w-6xl px-4 py-14 sm:px-6 md:py-20">
           <div className="text-center">

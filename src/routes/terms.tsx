@@ -23,7 +23,7 @@ function Terms() {
   const { data: s } = useSuspenseQuery(settingsQuery);
   return (
     <div className="min-h-screen">
-      <SiteNav instagram={s.instagram} />
+      <SiteNav settings={s} />
       <main id="main" className="mx-auto max-w-3xl px-6 py-20 leading-relaxed">
         <h1 className="font-display text-4xl uppercase tracking-wider text-glow">תנאי שימוש</h1>
         <div className="ember-divider mt-4 w-40" />
