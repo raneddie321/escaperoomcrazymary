@@ -30,7 +30,7 @@ CREATE TABLE public.site_settings (
   instagram text NOT NULL DEFAULT 'https://www.instagram.com/crazy_mary_jerusalem/',
   whatsapp text NOT NULL DEFAULT '',
   hero_title text NOT NULL DEFAULT 'Crazy Mary',
-  hero_subtitle text NOT NULL DEFAULT 'חדרי בריחה בירושלים',
+  hero_subtitle text NOT NULL DEFAULT 'מתחם הפחד של ישראל',
   hero_image_url text NOT NULL DEFAULT '',
   updated_at timestamptz NOT NULL DEFAULT now(),
   CONSTRAINT single_row CHECK (id = 1)
@@ -46,13 +46,13 @@ INSERT INTO public.site_settings (id, about_title, about_text, phone, email, add
 VALUES (
   1,
   'אודות Crazy Mary',
-  'ברוכים הבאים ל-Crazy Mary — מתחם חדרי בריחה מסתורי בלב ירושלים. אנחנו מזמינים אתכם לצאת מהשגרה ולהיכנס לעולמות אפלים, מפתיעים ומרתקים. כל חדר מספר סיפור אחר, עם עיצוב מוקפד, אתגרים חכמים, ואווירה שתגרום לכם לשכוח שאתם במציאות. מושלם לזוגות, חברים, משפחות וגיבושים.',
+  'ברוכים הבאים ל-Crazy Mary — מתחם הפחד של ישראל. אנחנו מזמינים אתכם לצאת מהשגרה ולהיכנס לעולמות אפלים, מפתיעים ומרתקים. כל חדר מספר סיפור אחר, עם עיצוב מוקפד, אתגרים חכמים, ואווירה שתגרום לכם לשכוח שאתם במציאות. מושלם לזוגות, חברים, משפחות וגיבושים.',
   '',
   '',
   'ירושלים',
   '',
   'Crazy Mary',
-  'חדרי בריחה בירושלים · תעזו להיכנס'
+  'מתחם הפחד של ישראל · תעזו להיכנס'
 );
 
 INSERT INTO public.rooms (slug, name, tagline, description, difficulty, duration, players, order_index) VALUES

@@ -10,7 +10,7 @@ export const Route = createFileRoute("/rooms/")({
   head: () => ({
     meta: [
       { title: "החדרים — Crazy Mary" },
-      { name: "description", content: "4 חדרי בריחה בירושלים: מבוך הפחד, הקבר, מחבואים בחושך ו-Zombie Shot." },
+      { name: "description", content: "4 חוויות אימה במתחם הפחד של ישראל: מבוך הפחד, הקבר, מחבואים בחושך ו-Zombie Shot." },
       { property: "og:title", content: "החדרים — Crazy Mary" },
       { property: "og:description", content: "4 אטרקציות. כל אחת עולם שלם." },
     ],

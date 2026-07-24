@@ -19,7 +19,7 @@ export const Route = createFileRoute("/rooms/$slug")({
   head: ({ loaderData }) => {
     const r = loaderData?.room;
     const title = r ? `${r.name} — Crazy Mary` : "חדר — Crazy Mary";
-    const desc = r?.description || "חדר בריחה ב-Crazy Mary ירושלים.";
+    const desc = r?.description || "חדר בריחה במתחם הפחד של ישראל.";
     const image = r ? roomImage(r) : undefined;
     const meta: { title?: string; name?: string; property?: string; content?: string }[] = [
       { title },

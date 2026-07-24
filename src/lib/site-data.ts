@@ -4,6 +4,7 @@ import room2 from "@/assets/room2.jpg";
 import room3 from "@/assets/room3.jpg";
 import room4 from "@/assets/room4.jpg";
 import hero from "@/assets/hero.jpg";
+import fearGhost from "@/assets/fear-ghost.png";
 
 export const roomFallbackImages: Record<string, string> = {
   "maze-of-fear": room1,
@@ -18,6 +19,7 @@ export const roomFallbackImages: Record<string, string> = {
 };
 
 export const heroFallback = hero;
+export const fearGhostImage = fearGhost;
 
 export type Room = {
   id: string;
@@ -84,7 +86,27 @@ export async function fetchSettings(): Promise<SiteSettings> {
     .eq("id", 1)
     .single();
   if (error) throw error;
-  return data as SiteSettings;
+  return normalizeSettings(data as SiteSettings);
+}
+
+function normalizeBrandText(value: string) {
+  return value
+    .replaceAll("מתחם חדרי בריחה מסתורי בלב ירושלים", "מתחם הפחד של ישראל")
+    .replaceAll("מתחם חדרי הבריחה של ירושלים", "מתחם הפחד של ישראל")
+    .replaceAll("מתחם חדרי בריחה בירושלים", "מתחם הפחד של ישראל")
+    .replaceAll("חדרי בריחה בירושלים", "מתחם הפחד של ישראל");
+}
+
+function normalizeSettings(settings: SiteSettings): SiteSettings {
+  return {
+    ...settings,
+    about_title: normalizeBrandText(settings.about_title),
+    about_text: normalizeBrandText(settings.about_text),
+    hero_title: normalizeBrandText(settings.hero_title),
+    hero_subtitle: normalizeBrandText(settings.hero_subtitle),
+    business_name: settings.business_name === "Crazy Mary Jerusalem" ? "Crazy Mary" : settings.business_name,
+    whatsapp_message: normalizeBrandText(settings.whatsapp_message),
+  };
 }
 
 export const roomsQuery = {

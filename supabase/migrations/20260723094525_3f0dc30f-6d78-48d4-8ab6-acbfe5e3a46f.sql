@@ -13,7 +13,7 @@ ALTER TABLE public.site_settings
   ADD COLUMN IF NOT EXISTS tiktok text NOT NULL DEFAULT '',
   ADD COLUMN IF NOT EXISTS hours text NOT NULL DEFAULT 'ראשון-חמישי 16:00-23:00 · שישי-שבת 10:00-24:00',
   ADD COLUMN IF NOT EXISTS map_embed_url text NOT NULL DEFAULT '',
-  ADD COLUMN IF NOT EXISTS business_name text NOT NULL DEFAULT 'Crazy Mary Jerusalem',
+  ADD COLUMN IF NOT EXISTS business_name text NOT NULL DEFAULT 'Crazy Mary',
   ADD COLUMN IF NOT EXISTS business_id text NOT NULL DEFAULT '',
   ADD COLUMN IF NOT EXISTS whatsapp_message text NOT NULL DEFAULT 'שלום, אשמח לפרטים והזמנה לחדר בריחה ב-Crazy Mary';
 

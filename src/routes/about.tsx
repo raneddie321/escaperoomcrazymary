@@ -9,7 +9,7 @@ export const Route = createFileRoute("/about")({
   head: () => ({
     meta: [
       { title: "אודות — Crazy Mary" },
-      { name: "description", content: "הסיפור מאחורי Crazy Mary — מתחם חדרי בריחה מסתורי בלב ירושלים." },
+      { name: "description", content: "הסיפור מאחורי Crazy Mary — מתחם הפחד של ישראל." },
       { property: "og:title", content: "אודות — Crazy Mary" },
       { property: "og:description", content: "הסיפור מאחורי המתחם ואיך נולדו החדרים." },
     ],

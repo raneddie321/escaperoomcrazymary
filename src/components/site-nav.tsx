@@ -115,7 +115,7 @@ export function SiteFooter({ settings }: { settings: SiteSettings }) {
             <span className="text-primary">CRAZY</span> MARY
           </div>
           <p className="mt-3 text-sm text-muted-foreground">
-            חדרי בריחה מסתוריים בירושלים. תעזו להיכנס.
+            מתחם הפחד של ישראל. תעזו להיכנס.
           </p>
         </div>
         <div className="text-sm text-muted-foreground">
@@ -157,7 +157,7 @@ export function SiteFooter({ settings }: { settings: SiteSettings }) {
         </div>
       </div>
       <div className="border-t border-border/40 py-4 text-center text-xs text-muted-foreground">
-        © {new Date().getFullYear()} {settings.business_name || "Crazy Mary Jerusalem"}
+        © {new Date().getFullYear()} {settings.business_name || "Crazy Mary"}
         {settings.business_id && <span> · ח.פ. {settings.business_id}</span>}
       </div>
     </footer>
