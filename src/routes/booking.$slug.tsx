@@ -5,7 +5,7 @@ import { Suspense, useEffect, useMemo, useState } from "react";
 import type { FormEvent, HTMLAttributes } from "react";
 import { roomsQuery, settingsQuery, roomImage } from "@/lib/site-data";
 import { createBooking, getBookedSlots } from "@/lib/booking.functions";
-import { CalendarDays, Clock3, MessageCircle, UserRound, ArrowRight, Check, ShieldAlert } from "lucide-react";
+import { CalendarDays, Clock3, MessageCircle, UserRound, ArrowRight, Check, ShieldAlert, Loader2 } from "lucide-react";
 
 type Step = "date" | "time" | "details";
 
@@ -61,6 +61,7 @@ function BookingPage() {
   const [notes, setNotes] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
   const [returnHref, setReturnHref] = useState(`/rooms/${room.slug}`);
 
   const selectedDate = dates.find((d) => d.value === date);
@@ -110,21 +111,37 @@ function BookingPage() {
       return;
     }
 
-    const result = await submit({
-      data: {
-        roomSlug: room.slug,
-        date,
-        time,
-        fullName: name,
-        phone,
-        identityNumber,
-        email,
-        players,
-        notes,
-      },
-    });
+    const whatsappWindow = window.open("", "_blank", "noopener");
+    if (whatsappWindow) {
+      whatsappWindow.document.write("<!doctype html><title>WhatsApp</title><body style='font-family:sans-serif;background:#07110b;color:white;display:grid;place-items:center;height:100vh;margin:0;text-align:center'><div><h1>פותח WhatsApp...</h1><p>ההזמנה נשמרת עכשיו.</p></div></body>");
+    }
+
+    setSubmitting(true);
+    let result: Awaited<ReturnType<typeof submit>>;
+    try {
+      result = await submit({
+        data: {
+          roomSlug: room.slug,
+          date,
+          time,
+          fullName: name,
+          phone,
+          identityNumber,
+          email,
+          players,
+          notes,
+        },
+      });
+    } catch (err) {
+      whatsappWindow?.close();
+      setSubmitting(false);
+      setError(err instanceof Error ? err.message : "לא הצלחנו לשמור את ההזמנה. נסו שוב.");
+      return;
+    }
+    setSubmitting(false);
 
     if (!result.ok) {
+      whatsappWindow?.close();
       setStep("time");
       setError("השעה הזאת כבר לא זמינה להזמנה. בחרו שעה אחרת.");
       await bookedSlotsQ.refetch();
@@ -134,8 +151,13 @@ function BookingPage() {
     setSuccess(true);
     await bookedSlotsQ.refetch();
     if (result.whatsappUrl) {
-      window.open(result.whatsappUrl, "_blank", "noopener");
+      if (whatsappWindow) {
+        whatsappWindow.location.href = result.whatsappUrl;
+      } else {
+        window.location.href = result.whatsappUrl;
+      }
     } else if (!settings.whatsapp) {
+      whatsappWindow?.close();
       setError("ההזמנה נשמרה באדמין, אבל לא מוגדר מספר WhatsApp באתר.");
     }
   }
@@ -201,6 +223,7 @@ function BookingPage() {
                     setNotes={setNotes}
                     error={error}
                     success={success}
+                    submitting={submitting}
                     submitBooking={submitBooking}
                   />
                 </section>
@@ -239,6 +262,7 @@ function BookingForm({
   setNotes,
   error,
   success,
+  submitting,
   submitBooking,
 }: {
   step: Step;
@@ -266,6 +290,7 @@ function BookingForm({
   setNotes: (value: string) => void;
   error: string | null;
   success: boolean;
+  submitting: boolean;
   submitBooking: (event: FormEvent) => void;
 }) {
   return (
@@ -358,7 +383,19 @@ function BookingForm({
               )}
 
               {error && <p role="alert" className="mt-6 rounded-md border border-destructive/60 bg-destructive/10 px-3 py-2 text-sm text-destructive">{error}</p>}
-              {success && <p role="status" className="mt-6 rounded-md border border-accent/60 bg-accent/10 px-3 py-2 text-sm text-accent">ההזמנה אושרה, נשמרה בפאנל הניהול ונפתחה הודעת WhatsApp.</p>}
+              {success && (
+                <div role="status" className="booking-success mt-6">
+                  <div className="flex h-11 w-11 items-center justify-center rounded-full bg-[#25D366] text-[#062617]">
+                    <Check className="h-6 w-6" aria-hidden />
+                  </div>
+                  <div>
+                    <div className="font-display text-xl text-foreground">ההזמנה אושרה בהצלחה</div>
+                    <p className="mt-1 text-sm text-muted-foreground">
+                      השעה נחסמה להזמנות נוספות, הפרטים נשמרו בפאנל הניהול ונפתחה הודעת WhatsApp לשליחה.
+                    </p>
+                  </div>
+                </div>
+              )}
 
               <div className="mt-8 flex flex-wrap items-center justify-between gap-3 border-t border-border/45 pt-6">
                 <div className="text-sm text-muted-foreground">
@@ -380,8 +417,9 @@ function BookingForm({
                       המשך
                     </button>
                   ) : (
-                    <button type="submit" className="btn btn-whatsapp">
-                      <MessageCircle className="h-4 w-4" aria-hidden /> אישור הזמנה
+                    <button type="submit" className="btn btn-whatsapp" disabled={submitting}>
+                      {submitting ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden /> : <MessageCircle className="h-4 w-4" aria-hidden />}
+                      {submitting ? "מאשר..." : "אישור הזמנה"}
                     </button>
                   )}
                 </div>
