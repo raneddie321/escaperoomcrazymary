@@ -56,7 +56,7 @@ function HomeContent() {
       <SiteNav settings={settings} />
       <main id="main">
         {/* Hero */}
-        <section className="section-panel relative isolate overflow-hidden">
+        <section className="section-panel relative isolate overflow-hidden my-3">
           <div className="absolute inset-0 -z-10">
             <img
               src={heroImage(settings)}
@@ -98,7 +98,7 @@ function HomeContent() {
         </section>
 
         {/* Stats strip */}
-        <section aria-label="נתונים" className="section-panel border-y border-border/40 bg-background/60 backdrop-blur">
+        <section aria-label="נתונים" className="section-panel my-3 border-y border-border/40 bg-background/60 backdrop-blur">
           <div className="mx-auto grid max-w-6xl grid-cols-2 gap-4 px-4 py-6 text-center sm:gap-6 sm:px-6 sm:py-8 md:grid-cols-4">
             {[
               { k: "13", v: "שנים של אימה" },
@@ -115,7 +115,7 @@ function HomeContent() {
         </section>
 
         {/* Rooms */}
-        <section id="rooms" className="section-panel mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-24">
+        <section id="rooms" className="section-panel mx-auto my-3 max-w-7xl px-4 py-16 sm:px-6 sm:py-24">
           <div className="mb-10 text-center sm:mb-16">
             <div className="ornament-divider mx-auto max-w-md text-[9px] uppercase tracking-[0.4em] sm:text-[10px] sm:tracking-[0.5em]">◆ 4 חדרים · 4 עולמות ◆</div>
             <h2 className="mt-5 font-display text-2xl uppercase tracking-[0.1em] text-neon sm:mt-6 sm:text-4xl sm:tracking-[0.15em] md:text-6xl">
@@ -178,7 +178,7 @@ function HomeContent() {
 
 
         {/* Pricing */}
-        <section id="pricing" className="section-panel mx-auto max-w-5xl px-4 py-16 sm:px-6 sm:py-24">
+        <section id="pricing" className="section-panel mx-auto my-3 max-w-5xl px-4 py-16 sm:px-6 sm:py-24">
           <div className="mb-10 text-center sm:mb-14">
             <div className="ornament-divider mx-auto max-w-md text-[9px] uppercase tracking-[0.4em] sm:text-[10px] sm:tracking-[0.5em]">◆ המחירון שלנו ◆</div>
             <h2 className="mt-5 font-display text-2xl uppercase tracking-[0.1em] text-neon sm:text-4xl md:text-5xl">מחירון</h2>
@@ -248,7 +248,7 @@ function HomeContent() {
         </section>
 
         {/* CTA */}
-        <section className="section-panel mx-auto max-w-4xl px-6 py-20 text-center">
+        <section className="section-panel mx-auto my-3 max-w-4xl px-6 py-20 text-center">
           <div className="ornament-divider mx-auto max-w-sm text-lg">◆</div>
           <h2 className="mt-6 font-display text-3xl uppercase tracking-[0.15em] md:text-5xl text-glow">מוכנים להיכנס?</h2>
           <p className="mt-4 text-muted-foreground">שריינו את החדר שלכם עוד היום. מושלם לזוגות, חברים, משפחות וגיבושים.</p>
