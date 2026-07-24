@@ -1,10 +1,10 @@
-import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { useSuspenseQuery } from "@tanstack/react-query";
-import { Suspense, useMemo, useState } from "react";
+import { createFileRoute, notFound } from "@tanstack/react-router";
+import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
+import { useServerFn } from "@tanstack/react-start";
+import { Suspense, useEffect, useMemo, useState } from "react";
 import type { FormEvent, HTMLAttributes } from "react";
-import { roomsQuery, settingsQuery, roomImage, whatsappHref } from "@/lib/site-data";
-import { SiteNav, SiteFooter } from "@/components/site-nav";
-import { FloatingActions } from "@/components/floating-actions";
+import { roomsQuery, settingsQuery, roomImage } from "@/lib/site-data";
+import { createBooking, getBookedSlots } from "@/lib/booking.functions";
 import { CalendarDays, Clock3, MessageCircle, UserRound, ArrowRight, Check, ShieldAlert } from "lucide-react";
 
 type Step = "date" | "time" | "details";
@@ -48,21 +48,47 @@ function BookingPage() {
   const room = rooms.find((r) => r.slug === slug)!;
 
   const dates = useMemo(() => buildDates(), []);
+  const getSlots = useServerFn(getBookedSlots);
+  const submit = useServerFn(createBooking);
   const [step, setStep] = useState<Step>("date");
   const [date, setDate] = useState(dates[0]?.value ?? "");
   const [time, setTime] = useState("");
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
+  const [identityNumber, setIdentityNumber] = useState("");
+  const [email, setEmail] = useState("");
   const [players, setPlayers] = useState("");
   const [notes, setNotes] = useState("");
   const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState(false);
+  const [returnHref, setReturnHref] = useState(`/rooms/${room.slug}`);
 
   const selectedDate = dates.find((d) => d.value === date);
   const times = ["16:00", "17:30", "19:00", "20:30", "22:00", "23:30"];
+  const bookedSlotsQ = useQuery({
+    queryKey: ["booked-slots", room.slug, date],
+    queryFn: () => getSlots({ data: { roomSlug: room.slug, date } }),
+    enabled: Boolean(date),
+    staleTime: 5_000,
+  });
+  const bookedTimes = new Set(bookedSlotsQ.data?.times ?? []);
 
-  function submitBooking(event: FormEvent) {
+  useEffect(() => {
+    if (typeof document === "undefined" || !document.referrer) return;
+    try {
+      const referrer = new URL(document.referrer);
+      if (referrer.origin === window.location.origin) {
+        setReturnHref(`${referrer.pathname}${referrer.search}${referrer.hash}`);
+      }
+    } catch {
+      setReturnHref(`/rooms/${room.slug}`);
+    }
+  }, [room.slug]);
+
+  async function submitBooking(event: FormEvent) {
     event.preventDefault();
     setError(null);
+    setSuccess(false);
     if (!date) {
       setStep("date");
       setError("בחרו תאריך כדי להמשיך.");
@@ -73,67 +99,184 @@ function BookingPage() {
       setError("בחרו שעה כדי להמשיך.");
       return;
     }
-    if (!name.trim() || !phone.trim()) {
-      setError("השאירו שם וטלפון כדי שנוכל לחזור אליכם.");
+    if (bookedTimes.has(time)) {
+      setStep("time");
+      setError("השעה הזאת כבר נתפסה. בחרו שעה אחרת.");
+      await bookedSlotsQ.refetch();
+      return;
+    }
+    if (!name.trim() || !phone.trim() || !identityNumber.trim()) {
+      setError("השאירו שם מלא, טלפון ותעודת זהות כדי לאשר הזמנה.");
       return;
     }
 
-    const message = [
-      `שלום, אני רוצה להזמין את ${room.name}.`,
-      `תאריך: ${selectedDate?.fullLabel ?? date}`,
-      `שעה: ${time}`,
-      players && `מספר משתתפים: ${players}`,
-      `שם: ${name}`,
-      `טלפון: ${phone}`,
-      notes && `הערות: ${notes}`,
-    ]
-      .filter(Boolean)
-      .join("\n");
+    const result = await submit({
+      data: {
+        roomSlug: room.slug,
+        date,
+        time,
+        fullName: name,
+        phone,
+        identityNumber,
+        email,
+        players,
+        notes,
+      },
+    });
 
-    window.open(whatsappHref(settings, message), "_blank", "noopener");
+    if (!result.ok) {
+      setStep("time");
+      setError("השעה הזאת כבר לא זמינה להזמנה. בחרו שעה אחרת.");
+      await bookedSlotsQ.refetch();
+      return;
+    }
+
+    setSuccess(true);
+    await bookedSlotsQ.refetch();
+    if (result.whatsappUrl) {
+      window.open(result.whatsappUrl, "_blank", "noopener");
+    } else if (!settings.whatsapp) {
+      setError("ההזמנה נשמרה באדמין, אבל לא מוגדר מספר WhatsApp באתר.");
+    }
   }
 
   return (
-    <div className="min-h-screen">
-      <SiteNav settings={settings} />
+    <div className="booking-standalone min-h-screen">
       <main id="main">
-        <section className="relative isolate overflow-hidden">
+        <section className="relative isolate min-h-screen overflow-hidden">
           <div className="absolute inset-0 -z-10">
             <img src={roomImage(room)} alt="" aria-hidden className="h-full w-full object-cover opacity-35" />
-            <div className="absolute inset-0 bg-gradient-to-b from-background/55 via-background/80 to-background" />
+            <div className="absolute inset-0 bg-[linear-gradient(90deg,color-mix(in_oklab,var(--background)_96%,transparent),color-mix(in_oklab,var(--background)_74%,transparent)_54%,color-mix(in_oklab,var(--primary)_24%,var(--background)))]" />
           </div>
-          <div className="mx-auto max-w-6xl px-4 py-14 sm:px-6 md:py-20">
-            <Link to="/rooms/$slug" params={{ slug: room.slug }} className="inline-flex items-center gap-1 text-[10px] uppercase tracking-[0.3em] text-accent hover:underline sm:text-xs">
-              <ArrowRight className="h-3.5 w-3.5 rotate-180" aria-hidden /> חזרה לחדר
-            </Link>
-            <div className="mt-5 grid gap-10 md:grid-cols-[0.9fr_1.1fr] md:items-end">
-              <div>
-                <div className="inline-flex items-center gap-2 border border-accent/35 bg-background/55 px-3 py-1.5 text-[10px] uppercase tracking-[0.26em] text-accent backdrop-blur">
-                  <ShieldAlert className="h-3.5 w-3.5" aria-hidden /> טופס ייעודי לחדר
+          <div className="mx-auto flex min-h-screen max-w-6xl flex-col px-4 py-6 sm:px-6">
+            <div className="flex items-center justify-between gap-3">
+              <button type="button" onClick={() => window.history.length > 1 ? window.history.back() : window.location.assign(returnHref)} className="btn btn-ghost">
+                <ArrowRight className="h-4 w-4 rotate-180" aria-hidden /> חזרה לאתר
+              </button>
+              <div className="text-[10px] uppercase tracking-[0.28em] text-muted-foreground">Secure Booking Window</div>
+            </div>
+
+            <div className="grid flex-1 items-center gap-8 py-8 md:grid-cols-[0.72fr_1fr]">
+              <aside className="hidden md:block">
+                <div className="booking-window-poster">
+                  <img src={roomImage(room)} alt="" aria-hidden className="h-full w-full object-cover" />
                 </div>
-                <h1 className="mt-4 font-display text-4xl uppercase leading-tight text-glow sm:text-5xl md:text-7xl">
+              </aside>
+
+              <div>
+                <div className="mb-5 inline-flex items-center gap-2 border border-accent/35 bg-background/55 px-3 py-1.5 text-[10px] uppercase tracking-[0.26em] text-accent backdrop-blur">
+                  <ShieldAlert className="h-3.5 w-3.5" aria-hidden /> חלון הזמנה נפרד
+                </div>
+                <h1 className="font-display text-4xl uppercase leading-tight text-glow sm:text-5xl">
                   הזמנת {room.name}
                 </h1>
-                <p className="mt-5 max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg">
-                  בחרו תאריך, המשיכו לשעה, השאירו פרטים וההודעה תיפתח ישירות ב־WhatsApp עם כל פרטי ההזמנה לחדר הזה.
+                <p className="mt-4 max-w-xl text-sm leading-relaxed text-muted-foreground sm:text-base">
+                  לאחר אישור ההזמנה השעה נחסמת, ההזמנה נשמרת בפאנל הניהול ונפתח WhatsApp עם הודעה מלאה למספר שמוגדר באתר.
                 </p>
-              </div>
-              <div className="booking-preview corner-frame grain overflow-hidden border border-accent/30 bg-card/50 backdrop-blur">
-                <img src={roomImage(room)} alt="" aria-hidden className="h-56 w-full object-cover" />
+
+                <section className="mt-7">
+                  <BookingForm
+                    step={step}
+                    setStep={setStep}
+                    date={date}
+                    setDate={setDate}
+                    time={time}
+                    setTime={setTime}
+                    dates={dates}
+                    times={times}
+                    bookedTimes={bookedTimes}
+                    bookedSlotsLoading={bookedSlotsQ.isLoading}
+                    selectedDate={selectedDate}
+                    name={name}
+                    setName={setName}
+                    phone={phone}
+                    setPhone={setPhone}
+                    identityNumber={identityNumber}
+                    setIdentityNumber={setIdentityNumber}
+                    email={email}
+                    setEmail={setEmail}
+                    players={players}
+                    setPlayers={setPlayers}
+                    notes={notes}
+                    setNotes={setNotes}
+                    error={error}
+                    success={success}
+                    submitBooking={submitBooking}
+                  />
+                </section>
               </div>
             </div>
           </div>
         </section>
+      </main>
+    </div>
+  );
+}
 
-        <section className="mx-auto max-w-5xl px-4 pb-20 sm:px-6">
-          <form onSubmit={submitBooking} className="booking-shell">
-            <div className="grid gap-3 border-b border-border/45 p-4 sm:grid-cols-3 sm:p-6">
-              <StepButton active={step === "date"} done={Boolean(date)} icon={CalendarDays} label="תאריך" onClick={() => setStep("date")} />
-              <StepButton active={step === "time"} done={Boolean(time)} icon={Clock3} label="שעה" onClick={() => date && setStep("time")} />
-              <StepButton active={step === "details"} done={Boolean(name && phone)} icon={UserRound} label="פרטים" onClick={() => date && time && setStep("details")} />
-            </div>
+function BookingForm({
+  step,
+  setStep,
+  date,
+  setDate,
+  time,
+  setTime,
+  dates,
+  times,
+  bookedTimes,
+  bookedSlotsLoading,
+  selectedDate,
+  name,
+  setName,
+  phone,
+  setPhone,
+  identityNumber,
+  setIdentityNumber,
+  email,
+  setEmail,
+  players,
+  setPlayers,
+  notes,
+  setNotes,
+  error,
+  success,
+  submitBooking,
+}: {
+  step: Step;
+  setStep: (step: Step) => void;
+  date: string;
+  setDate: (date: string) => void;
+  time: string;
+  setTime: (time: string) => void;
+  dates: ReturnType<typeof buildDates>;
+  times: string[];
+  bookedTimes: Set<string>;
+  bookedSlotsLoading: boolean;
+  selectedDate?: ReturnType<typeof buildDates>[number];
+  name: string;
+  setName: (value: string) => void;
+  phone: string;
+  setPhone: (value: string) => void;
+  identityNumber: string;
+  setIdentityNumber: (value: string) => void;
+  email: string;
+  setEmail: (value: string) => void;
+  players: string;
+  setPlayers: (value: string) => void;
+  notes: string;
+  setNotes: (value: string) => void;
+  error: string | null;
+  success: boolean;
+  submitBooking: (event: FormEvent) => void;
+}) {
+  return (
+    <form onSubmit={submitBooking} className="booking-shell">
+      <div className="grid gap-3 border-b border-border/45 p-4 sm:grid-cols-3">
+        <StepButton active={step === "date"} done={Boolean(date)} icon={CalendarDays} label="תאריך" onClick={() => setStep("date")} />
+        <StepButton active={step === "time"} done={Boolean(time)} icon={Clock3} label="שעה" onClick={() => date && setStep("time")} />
+        <StepButton active={step === "details"} done={Boolean(name && phone && identityNumber)} icon={UserRound} label="פרטים" onClick={() => date && time && setStep("details")} />
+      </div>
 
-            <div className="p-4 sm:p-8">
+      <div className="p-4 sm:p-6">
               {step === "date" && (
                 <div>
                   <h2 className="font-display text-2xl uppercase tracking-widest">בחרו תאריך</h2>
@@ -162,21 +305,29 @@ function BookingPage() {
                 <div>
                   <h2 className="font-display text-2xl uppercase tracking-widest">בחרו שעה</h2>
                   <div className="ember-divider mt-3 w-32" />
-                  <p className="mt-4 text-sm text-muted-foreground">{selectedDate?.fullLabel}</p>
+                  <p className="mt-4 text-sm text-muted-foreground">
+                    {selectedDate?.fullLabel} {bookedSlotsLoading && <span>· בודק זמינות...</span>}
+                  </p>
                   <div className="mt-6 grid gap-3 sm:grid-cols-3">
-                    {times.map((option) => (
-                      <button
-                        key={option}
-                        type="button"
-                        onClick={() => {
-                          setTime(option);
-                          setStep("details");
-                        }}
-                        className={`booking-option min-h-20 ${time === option ? "is-selected" : ""}`}
-                      >
-                        <span className="font-mono text-2xl">{option}</span>
-                      </button>
-                    ))}
+                    {times.map((option) => {
+                      const taken = bookedTimes.has(option);
+                      return (
+                        <button
+                          key={option}
+                          type="button"
+                          disabled={taken}
+                          onClick={() => {
+                            if (taken) return;
+                            setTime(option);
+                            setStep("details");
+                          }}
+                          className={`booking-option min-h-20 ${time === option ? "is-selected" : ""} ${taken ? "is-disabled" : ""}`}
+                        >
+                          <span className="font-mono text-2xl">{option}</span>
+                          {taken && <span className="mt-1 text-[10px] uppercase tracking-[0.24em] text-primary">תפוס</span>}
+                        </button>
+                      );
+                    })}
                   </div>
                 </div>
               )}
@@ -188,6 +339,8 @@ function BookingPage() {
                   <div className="mt-6 grid gap-4 md:grid-cols-2">
                     <Field label="שם מלא" required value={name} onChange={setName} autoComplete="name" />
                     <Field label="טלפון" required type="tel" value={phone} onChange={setPhone} autoComplete="tel" />
+                    <Field label="תעודת זהות" required value={identityNumber} onChange={setIdentityNumber} inputMode="numeric" />
+                    <Field label="אימייל" type="email" value={email} onChange={setEmail} autoComplete="email" />
                     <Field label="מספר משתתפים" value={players} onChange={setPlayers} inputMode="numeric" />
                     <label className="block md:col-span-2">
                       <span className="mb-1.5 block text-xs uppercase tracking-widest text-muted-foreground">הערות</span>
@@ -205,6 +358,7 @@ function BookingPage() {
               )}
 
               {error && <p role="alert" className="mt-6 rounded-md border border-destructive/60 bg-destructive/10 px-3 py-2 text-sm text-destructive">{error}</p>}
+              {success && <p role="status" className="mt-6 rounded-md border border-accent/60 bg-accent/10 px-3 py-2 text-sm text-accent">ההזמנה אושרה, נשמרה בפאנל הניהול ונפתחה הודעת WhatsApp.</p>}
 
               <div className="mt-8 flex flex-wrap items-center justify-between gap-3 border-t border-border/45 pt-6">
                 <div className="text-sm text-muted-foreground">
@@ -227,18 +381,13 @@ function BookingPage() {
                     </button>
                   ) : (
                     <button type="submit" className="btn btn-whatsapp">
-                      <MessageCircle className="h-4 w-4" aria-hidden /> שליחה בוואטסאפ
+                      <MessageCircle className="h-4 w-4" aria-hidden /> אישור הזמנה
                     </button>
                   )}
                 </div>
               </div>
-            </div>
-          </form>
-        </section>
-      </main>
-      <FloatingActions settings={settings} />
-      <SiteFooter settings={settings} />
-    </div>
+      </div>
+    </form>
   );
 }
 

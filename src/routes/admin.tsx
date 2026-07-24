@@ -3,8 +3,8 @@ import { useServerFn } from "@tanstack/react-start";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { roomsQuery, settingsQuery, type Room, type SiteSettings } from "@/lib/site-data";
-import { adminLogin, adminLogout, checkAdminSession, updateRoom, updateSettings } from "@/lib/admin.functions";
-import { Loader2, LogOut, Save, ShieldCheck } from "lucide-react";
+import { adminLogin, adminLogout, checkAdminSession, listBookings, updateRoom, updateSettings } from "@/lib/admin.functions";
+import { CalendarClock, Loader2, LogOut, Save, ShieldCheck } from "lucide-react";
 
 export const Route = createFileRoute("/admin")({
   head: () => ({
@@ -93,6 +93,13 @@ function Panel({ onLogout }: { onLogout: () => void }) {
   const roomsQ = useQuery(roomsQuery);
   const settingsQ = useQuery(settingsQuery);
   const logout = useServerFn(adminLogout);
+  const bookingsFn = useServerFn(listBookings);
+  const bookingsQ = useQuery({
+    queryKey: ["admin-bookings"],
+    queryFn: () => bookingsFn(),
+    staleTime: 15_000,
+    refetchInterval: 30_000,
+  });
 
   return (
     <div className="min-h-screen">
@@ -111,6 +118,42 @@ function Panel({ onLogout }: { onLogout: () => void }) {
       </header>
 
       <main className="mx-auto max-w-6xl space-y-12 px-6 py-10">
+        <section>
+          <h2 className="font-display text-2xl uppercase tracking-widest">הזמנות נכנסות</h2>
+          <div className="ember-divider mt-3 w-32" />
+          <div className="mt-6 grid gap-4">
+            {bookingsQ.isLoading && (
+              <div className="rounded-lg border border-border bg-card p-6 text-sm text-muted-foreground">טוען הזמנות...</div>
+            )}
+            {!bookingsQ.isLoading && bookingsQ.data?.length === 0 && (
+              <div className="rounded-lg border border-border bg-card p-6 text-sm text-muted-foreground">אין הזמנות חדשות כרגע.</div>
+            )}
+            {bookingsQ.data?.map((booking) => (
+              <article key={booking.id} className="rounded-lg border border-border bg-card p-5">
+                <div className="flex flex-wrap items-center justify-between gap-3">
+                  <div>
+                    <div className="inline-flex items-center gap-2 text-xs uppercase tracking-widest text-accent">
+                      <CalendarClock className="h-4 w-4" aria-hidden /> {booking.booking_date} · {booking.booking_time}
+                    </div>
+                    <h3 className="mt-2 font-display text-xl">{booking.room_name}</h3>
+                  </div>
+                  <span className="rounded-full border border-primary/45 bg-primary/10 px-3 py-1 text-xs uppercase tracking-widest text-primary">
+                    {booking.status === "new" ? "חדש" : booking.status}
+                  </span>
+                </div>
+                <div className="mt-4 grid gap-2 text-sm text-muted-foreground md:grid-cols-3">
+                  <div><span className="text-foreground">שם מלא:</span> {booking.full_name}</div>
+                  <div><span className="text-foreground">טלפון:</span> {booking.phone}</div>
+                  <div><span className="text-foreground">ת.ז:</span> {booking.identity_number}</div>
+                </div>
+                <pre className="mt-4 whitespace-pre-wrap rounded-md border border-border/70 bg-background/70 p-4 text-sm leading-relaxed text-foreground">
+                  {booking.admin_message}
+                </pre>
+              </article>
+            ))}
+          </div>
+        </section>
+
         <section>
           <h2 className="font-display text-2xl uppercase tracking-widest">הגדרות אתר</h2>
           <div className="ember-divider mt-3 w-32" />

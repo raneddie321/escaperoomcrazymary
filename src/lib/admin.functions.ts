@@ -112,3 +112,15 @@ export const updateSettings = createServerFn({ method: "POST" })
     if (error) throw new Error(error.message);
     return { ok: true };
   });
+
+export const listBookings = createServerFn({ method: "GET" }).handler(async () => {
+  await requireAdmin();
+  const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+  const { data, error } = await supabaseAdmin
+    .from("bookings")
+    .select("*")
+    .order("created_at", { ascending: false })
+    .limit(50);
+  if (error) throw new Error(error.message);
+  return data ?? [];
+});

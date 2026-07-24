@@ -14,6 +14,68 @@ export type Database = {
   }
   public: {
     Tables: {
+      bookings: {
+        Row: {
+          admin_message: string
+          booking_date: string
+          booking_time: string
+          created_at: string
+          email: string
+          full_name: string
+          id: string
+          identity_number: string
+          notes: string
+          phone: string
+          players: string
+          room_name: string
+          room_slug: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          admin_message: string
+          booking_date: string
+          booking_time: string
+          created_at?: string
+          email?: string
+          full_name: string
+          id?: string
+          identity_number: string
+          notes?: string
+          phone: string
+          players?: string
+          room_name: string
+          room_slug: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          admin_message?: string
+          booking_date?: string
+          booking_time?: string
+          created_at?: string
+          email?: string
+          full_name?: string
+          id?: string
+          identity_number?: string
+          notes?: string
+          phone?: string
+          players?: string
+          room_name?: string
+          room_slug?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bookings_room_slug_fkey"
+            columns: ["room_slug"]
+            isOneToOne: false
+            referencedRelation: "rooms"
+            referencedColumns: ["slug"]
+          },
+        ]
+      }
       rooms: {
         Row: {
           created_at: string
