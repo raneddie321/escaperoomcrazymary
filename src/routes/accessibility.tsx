@@ -8,10 +8,10 @@ import { FloatingActions } from "@/components/floating-actions";
 export const Route = createFileRoute("/accessibility")({
   head: () => ({
     meta: [
-      { title: "הצהרת נגישות — Crazy Mary" },
-      { name: "description", content: "הצהרת הנגישות של אתר Crazy Mary — התאמות שבוצעו ואיך לפנות." },
-      { property: "og:title", content: "הצהרת נגישות — Crazy Mary" },
-      { property: "og:description", content: "הצהרת נגישות והתאמות באתר Crazy Mary." },
+      { title: "הצהרת נגישות — קרייזי מרי" },
+      { name: "description", content: "הצהרת הנגישות של אתר קרייזי מרי — התאמות שבוצעו ואיך לפנות." },
+      { property: "og:title", content: "הצהרת נגישות — קרייזי מרי" },
+      { property: "og:description", content: "הצהרת נגישות והתאמות באתר קרייזי מרי." },
     ],
     links: [{ rel: "canonical", href: "/accessibility" }],
   }),
@@ -28,7 +28,7 @@ function A11y() {
         <h1 className="font-display text-4xl uppercase tracking-wider text-glow">הצהרת נגישות</h1>
         <div className="ember-divider mt-4 w-40" />
         <div className="mt-8 space-y-5 text-muted-foreground">
-          <p>{s.business_name || "Crazy Mary"} מחויב/ת להנגיש את שירותיו ואת האתר לאנשים עם מוגבלויות, בהתאם לתקנות שוויון זכויות לאנשים עם מוגבלות (התאמות נגישות לשירות), התשע"ג-2013 ובהתאם לתקן הישראלי ת"י 5568 ברמת AA.</p>
+          <p>{s.business_name || "קרייזי מרי"} מחויב/ת להנגיש את שירותיו ואת האתר לאנשים עם מוגבלויות, בהתאם לתקנות שוויון זכויות לאנשים עם מוגבלות (התאמות נגישות לשירות), התשע"ג-2013 ובהתאם לתקן הישראלי ת"י 5568 ברמת AA.</p>
 
           <h2 className="pt-4 font-display text-2xl text-foreground">התאמות באתר</h2>
           <ul className="list-inside list-disc space-y-1">

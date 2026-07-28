@@ -9,9 +9,9 @@ import { Phone, Mail, MapPin, Instagram, MessageCircle, Facebook, Music2, Clock,
 export const Route = createFileRoute("/contact")({
   head: () => ({
     meta: [
-      { title: "יצירת קשר — Crazy Mary" },
-      { name: "description", content: "צרו קשר עם Crazy Mary — טלפון, וואטסאפ, אימייל, כתובת ושעות פעילות." },
-      { property: "og:title", content: "יצירת קשר — Crazy Mary" },
+      { title: "יצירת קשר — קרייזי מרי" },
+      { name: "description", content: "צרו קשר עם קרייזי מרי — טלפון, וואטסאפ, אימייל, כתובת ושעות פעילות." },
+      { property: "og:title", content: "יצירת קשר — קרייזי מרי" },
       { property: "og:description", content: "פרטי יצירת קשר, מפה ושעות פעילות." },
     ],
     links: [{ rel: "canonical", href: "/contact" }],
@@ -75,7 +75,7 @@ function ContactContent() {
             <div className="mt-12 overflow-hidden rounded-lg border border-border/60">
               <iframe
                 src={s.map_embed_url}
-                title={`מפה למתחם ${s.business_name || "Crazy Mary"}`}
+                title={`מפה למתחם ${s.business_name || "קרייזי מרי"}`}
                 className="h-80 w-full"
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
@@ -106,7 +106,7 @@ function ContactForm({ settings }: { settings: import("@/lib/site-data").SiteSet
       <h2 className="font-display text-3xl uppercase tracking-widest">שלחו לנו הודעה</h2>
       <div className="ember-divider mt-3 w-32" />
       <p className="mt-4 text-sm text-muted-foreground">
-        לחיצה על "שליחה" תפתח את WhatsApp עם ההודעה שלכם — לא נאספים פרטים בשרתי האתר. פרטי הפניה יישמרו רק אצל צוות {settings.business_name || "Crazy Mary"} לצורך חזרה אליכם.
+        לחיצה על "שליחה" תפתח את WhatsApp עם ההודעה שלכם — לא נאספים פרטים בשרתי האתר. פרטי הפניה יישמרו רק אצל צוות {settings.business_name || "קרייזי מרי"} לצורך חזרה אליכם.
       </p>
 
       <form

@@ -9,7 +9,7 @@ import { CalendarClock, Loader2, LogOut, Save, ShieldCheck } from "lucide-react"
 export const Route = createFileRoute("/admin")({
   head: () => ({
     meta: [
-      { title: "פאנל ניהול — Crazy Mary" },
+      { title: "פאנל ניהול — קרייזי מרי" },
       { name: "description", content: "פאנל ניהול פנימי." },
       { name: "robots", content: "noindex, nofollow" },
     ],
@@ -106,7 +106,7 @@ function Panel({ onLogout }: { onLogout: () => void }) {
       <header className="sticky top-0 z-40 border-b border-border/60 bg-background/80 backdrop-blur-xl">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
           <div className="font-display text-xl uppercase tracking-widest">
-            <span className="text-primary">Crazy Mary</span> · Admin
+            <span className="text-primary">קרייזי מרי</span> · Admin
           </div>
           <button
             onClick={async () => { await logout(); onLogout(); }}

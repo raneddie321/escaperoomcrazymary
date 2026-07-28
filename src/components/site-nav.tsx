@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { useState } from "react";
-import { Menu, X, Instagram, Facebook, Music2, Phone, Clock, MapPin, Mail } from "lucide-react";
+import { Menu, X, Instagram, Facebook, Music2, Phone, Clock, MapPin, Mail, MessageCircle } from "lucide-react";
 import type { SiteSettings } from "@/lib/site-data";
 
 export function SiteNav({ settings }: { settings: SiteSettings }) {
@@ -16,6 +16,7 @@ export function SiteNav({ settings }: { settings: SiteSettings }) {
     settings.instagram && { href: settings.instagram, label: "Instagram", icon: Instagram },
     settings.facebook && { href: settings.facebook, label: "Facebook", icon: Facebook },
     settings.tiktok && { href: settings.tiktok, label: "TikTok", icon: Music2 },
+    settings.whatsapp && { href: `https://wa.me/${settings.whatsapp.replace(/\D/g, "")}`, label: "WhatsApp", icon: MessageCircle },
   ].filter(Boolean) as { href: string; label: string; icon: typeof Instagram }[];
 
   return (
@@ -27,10 +28,9 @@ export function SiteNav({ settings }: { settings: SiteSettings }) {
         דלגו לתוכן הראשי
       </a>
       <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
-        <Link to="/" className="group flex items-center gap-2 font-display text-xl tracking-[0.25em] text-foreground md:text-2xl" aria-label="Crazy Mary — עמוד הבית">
-          <span className="text-accent">◆</span>
-          <span><span className="text-primary text-glow">CRAZY</span> MARY</span>
-          <span className="text-accent">◆</span>
+        <Link to="/" className="group flex flex-col leading-none text-foreground" aria-label="קרייזי מרי — עמוד הבית">
+          <span className="font-display text-xl tracking-[0.08em] text-primary text-glow md:text-2xl">קרייזי מרי</span>
+          <span className="mt-1 text-[10px] font-semibold tracking-[0.08em] text-accent md:text-xs">מתחם הפחד של ירושלים</span>
         </Link>
         <nav className="hidden items-center gap-8 md:flex" aria-label="ניווט ראשי">
           {links.map((l) => (
@@ -111,11 +111,11 @@ export function SiteFooter({ settings }: { settings: SiteSettings }) {
     <footer className="mt-24 border-t border-border/40 bg-background/60">
       <div className="mx-auto grid max-w-7xl gap-8 px-6 py-12 md:grid-cols-4">
         <div>
-          <div className="font-display text-2xl tracking-widest">
-            <span className="text-primary">CRAZY</span> MARY
+          <div className="font-display text-2xl tracking-widest text-primary text-glow">
+            קרייזי מרי
           </div>
           <p className="mt-3 text-sm text-muted-foreground">
-            מתחם הפחד של ישראל. תעזו להיכנס.
+            קרייזי מרי - מתחם הפחד של ירושלים. תעזו להיכנס.
           </p>
         </div>
         <div className="text-sm text-muted-foreground">
@@ -145,6 +145,9 @@ export function SiteFooter({ settings }: { settings: SiteSettings }) {
             {settings.tiktok && (
               <a href={settings.tiktok} target="_blank" rel="noreferrer" aria-label="TikTok" className="hover:text-accent"><Music2 className="h-5 w-5" aria-hidden /></a>
             )}
+            {settings.whatsapp && (
+              <a href={`https://wa.me/${settings.whatsapp.replace(/\D/g, "")}`} target="_blank" rel="noreferrer" aria-label="WhatsApp" className="hover:text-accent"><MessageCircle className="h-5 w-5" aria-hidden /></a>
+            )}
           </div>
         </div>
         <div className="text-sm text-muted-foreground">
@@ -157,7 +160,7 @@ export function SiteFooter({ settings }: { settings: SiteSettings }) {
         </div>
       </div>
       <div className="border-t border-border/40 py-4 text-center text-xs text-muted-foreground">
-        © {new Date().getFullYear()} {settings.business_name || "Crazy Mary"}
+        © {new Date().getFullYear()} {settings.business_name || "קרייזי מרי"}
         {settings.business_id && <span> · ח.פ. {settings.business_id}</span>}
       </div>
     </footer>

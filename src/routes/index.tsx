@@ -4,14 +4,14 @@ import { Suspense } from "react";
 import { roomsQuery, settingsQuery, roomImage, heroImage, fearGhostImage } from "@/lib/site-data";
 import { SiteNav, SiteFooter } from "@/components/site-nav";
 import { FloatingActions } from "@/components/floating-actions";
-import { KeyRound, Users, Timer, Flame, Instagram } from "lucide-react";
+import { KeyRound, Users, Timer, Instagram, Music2, MessageCircle } from "lucide-react";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Crazy Mary — מתחם הפחד של ישראל" },
-      { name: "description", content: "Crazy Mary הוא מתחם הפחד של ישראל — מבוך הפחד הגדול ביותר בישראל כבר 13 שנה עם 2 קומות, והקבר, מחבואים בחושך ו-Zombie Shot כאטרקציות חדשות ומפחידות." },
-      { property: "og:title", content: "Crazy Mary — מתחם הפחד של ישראל" },
+      { title: "קרייזי מרי — מתחם הפחד של ירושלים" },
+      { name: "description", content: "קרייזי מרי הוא מתחם הפחד של ירושלים: חדר בריחה, מבוך אימה, מחבואים בחושך וזומבישוט — משחק יריות חדש." },
+      { property: "og:title", content: "קרייזי מרי — מתחם הפחד של ירושלים" },
       { property: "og:description", content: "מבוך הפחד הגדול ביותר בישראל כבר 13 שנה, עם 2 קומות; הקבר הוא חדר בריחה מפחיד עם שחקן, ומחבואים בחושך ו-Zombie Shot מוסיפים אימה חדשה ומרשימה." },
       { property: "og:url", content: "/" },
     ],
@@ -22,9 +22,9 @@ export const Route = createFileRoute("/")({
         children: JSON.stringify({
           "@context": "https://schema.org",
           "@type": "LocalBusiness",
-          name: "Crazy Mary",
-          description: "מתחם הפחד של ישראל — מבוך הפחד הגדול ביותר בישראל עם 2 קומות, והקבר, מחבואים בחושך ו-Zombie Shot כאטרקציות חדשות ומפחידות.",
-          address: { "@type": "PostalAddress", addressLocality: "ירושלים", addressCountry: "IL" },
+          name: "קרייזי מרי",
+          description: "מתחם הפחד של ירושלים — חדר בריחה, מבוך אימה, מחבואים בחושך וזומבישוט.",
+          address: { "@type": "PostalAddress", streetAddress: "רחוב הרכבים 13", addressLocality: "ירושלים", addressCountry: "IL" },
           sameAs: ["https://www.instagram.com/crazy_mary_jerusalem/"],
         }),
       },
@@ -83,21 +83,14 @@ function HomeContent() {
           </div>
           <div className="mx-auto grid min-h-[calc(100svh-76px)] max-w-7xl items-center gap-10 px-4 py-16 sm:px-6 sm:py-20 md:grid-cols-[1fr_0.74fr] md:py-24">
             <div className="max-w-3xl text-center md:text-right">
-              <div className="mb-5 inline-flex items-center gap-2 border border-accent/35 bg-background/55 px-3 py-1.5 text-[10px] uppercase tracking-[0.26em] text-accent shadow-[0_0_34px_-18px_var(--accent)] backdrop-blur sm:px-4 sm:text-[11px]">
-                <Flame className="h-3.5 w-3.5" aria-hidden /> מתחם הפחד של ישראל
+              <div className="font-display text-[2.15rem] uppercase leading-tight text-neon sm:text-[3.5rem] md:text-[4.7rem]">
+                קרייזי מרי
               </div>
-
-              <h1
-                className="text-[2.9rem] uppercase leading-none text-glow flicker sm:text-6xl md:text-8xl"
-                style={{ fontFamily: "var(--font-tech)", fontWeight: 900, color: "var(--primary)" }}
-              >
-                CRAZY&nbsp;MARY
-              </h1>
-              <div className="mt-4 font-display text-[18px] uppercase leading-tight text-neon sm:text-[28px] md:text-[40px]">
-                מתחם הפחד של ישראל
+              <div className="mt-3 max-w-3xl font-display text-[1.35rem] leading-tight text-foreground sm:text-[2rem] md:text-[2.65rem]">
+                מתחם הפחד של ירושלים
               </div>
               <p className="mt-5 max-w-2xl text-base leading-relaxed text-foreground/86 sm:text-lg md:text-xl">
-                נכנסים למתחם אימה קולנועי עם 2 קומות של מבוך פחד, חדרי בריחה, שחקנים, חושך ואתגרים שנבנו כדי להעלות דופק. זה לא עוד חדר בריחה, זאת חוויה שנשארת בראש גם אחרי שיוצאים.
+                ארבע אטרקציות פחד לבחירתכם. חדר בריחה, מבוך אימה, מחבואים בחושך, וזומבישוט - משחק יריות חדש.
               </p>
               <div className="mt-8 flex flex-wrap justify-center gap-3 md:justify-start">
                 <a href="#rooms" className="btn btn-primary btn-lg">
@@ -111,7 +104,7 @@ function HomeContent() {
                 {[
                   ["13+", "שנות אימה"],
                   ["4", "אטרקציות"],
-                  ["18+", "רמות קיצון"],
+                  ["2", "קומות של אימה"],
                 ].map(([k, v]) => (
                   <div key={v} className="border-r border-accent/25 bg-background/35 px-3 py-3 backdrop-blur first:border-r-0 md:first:border-r md:last:border-r-0">
                     <div className="font-display text-2xl text-primary text-glow">{k}</div>
@@ -141,9 +134,9 @@ function HomeContent() {
           <div className="mx-auto grid max-w-6xl grid-cols-2 gap-4 px-4 py-6 text-center sm:gap-6 sm:px-6 sm:py-8 md:grid-cols-4">
             {[
               { k: "13", v: "שנים של אימה" },
-              { k: "2", v: "קומות של מבוך" },
+              { k: "2", v: "שתי קומות של אימה" },
               { k: "4", v: "אטרקציות מפחידות" },
-              { k: "18+", v: "חוויה קולנועית" },
+              { k: "NEW", v: "זומבישוט חדש" },
             ].map((s) => (
               <div key={s.v}>
                 <div className="font-display text-3xl text-glow md:text-4xl" style={{ color: "var(--primary)" }}>{s.k}</div>
@@ -156,13 +149,9 @@ function HomeContent() {
         {/* Rooms */}
         <section id="rooms" className="section-panel mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-24">
           <div className="mb-10 text-center sm:mb-16">
-            <div className="ornament-divider mx-auto max-w-md text-[9px] uppercase tracking-[0.4em] sm:text-[10px] sm:tracking-[0.5em]">◆ 4 חדרים · 4 עולמות ◆</div>
             <h2 className="mt-5 font-display text-2xl uppercase tracking-[0.1em] text-neon sm:mt-6 sm:text-4xl sm:tracking-[0.15em] md:text-6xl">
-              בחרו את החוויה המפחידה שלכם
+              בחרו את המשחק שלכם
             </h2>
-            <p className="mx-auto mt-3 max-w-2xl text-sm text-muted-foreground sm:mt-4 md:text-base">
-              המבוך הפחד הוא האטרקציה המקורית והגדולה בישראל, עם 2 קומות של מתח, והקבר, מחבואים בחושך ו-Zombie Shot ממשיכים את המתח עם חוויה אחת חדשה ומרגשת.
-            </p>
           </div>
 
           <div className="grid gap-6 sm:gap-10 md:grid-cols-2">
@@ -188,9 +177,6 @@ function HomeContent() {
                   <div className="absolute top-3 right-3 rounded-sm border border-accent/60 bg-background/70 px-2 py-0.5 font-mono text-[9px] uppercase tracking-[0.25em] text-accent backdrop-blur sm:top-4 sm:right-4 sm:px-3 sm:py-1 sm:text-[10px] sm:tracking-[0.3em]">
                     №&nbsp;{String(i + 1).padStart(2, "0")}
                   </div>
-                  <div className="absolute bottom-3 left-3 rounded-sm bg-primary/90 px-2 py-0.5 text-[9px] uppercase tracking-[0.25em] text-primary-foreground sm:bottom-4 sm:left-4 sm:px-2.5 sm:py-1 sm:text-[10px] sm:tracking-[0.3em]">
-                    {room.difficulty}
-                  </div>
                 </div>
                 <div className="p-5 sm:p-7 md:p-9">
                   <div className="text-[9px] uppercase tracking-[0.4em] text-accent sm:text-[10px] sm:tracking-[0.5em]">{room.tagline}</div>
@@ -202,7 +188,6 @@ function HomeContent() {
                     {room.description}
                   </p>
                   <div className="mt-5 flex flex-wrap gap-3 text-xs text-muted-foreground sm:mt-6 sm:gap-4">
-                    <span className="inline-flex items-center gap-1.5"><Flame className="h-3.5 w-3.5 text-primary" aria-hidden /> {room.difficulty}</span>
                     <span className="inline-flex items-center gap-1.5"><Timer className="h-3.5 w-3.5 text-accent" aria-hidden /> {room.duration}</span>
                     <span className="inline-flex items-center gap-1.5"><Users className="h-3.5 w-3.5 text-accent" aria-hidden /> {room.players}</span>
                   </div>
@@ -234,7 +219,7 @@ function HomeContent() {
                   ["דרגה 9", "90 ₪"],
                   ["דרגה 10", "100 ₪"],
                   ["דרגה 10+", "110 ₪"],
-                  ["דרגה 11 (18+)", "130 ₪"],
+                  ["דרגה 11", "130 ₪"],
                   ["סרטון שלכם מהמבוך", "100 ₪"],
                 ].map(([l, p]) => (
                   <li key={l} className="flex items-center justify-between gap-4 border-b border-border/40 py-1.5 last:border-none">
@@ -250,7 +235,7 @@ function HomeContent() {
               <div className="ember-divider my-4 w-20" />
               <ul className="space-y-2.5 text-sm sm:text-base">
                 {[
-                  ["הקבר — משחק בריחה חדש (18+)", "120 ₪"],
+                  ["הקבר — משחק בריחה חדש", "120 ₪"],
                   ["מחבואים בחושך — חדש", "120 ₪"],
                   ["Zombie Shot — חדש", "130 ₪"],
                 ].map(([l, p]) => (
@@ -266,10 +251,10 @@ function HomeContent() {
               <ul className="space-y-2.5 text-sm sm:text-base">
                 {[
                   ["הקבר + דרגה 10", "180 ₪", "220 ₪"],
-                  ["הקבר + דרגה 11 (18+)", "210 ₪", "250 ₪"],
+                  ["הקבר + דרגה 11", "210 ₪", "250 ₪"],
                   ["מחבואים בחושך + הקבר", "200 ₪", "240 ₪"],
                   ["מחבואים + הקבר + דרגה 10", "300 ₪", "340 ₪"],
-                  ["מחבואים + הקבר + דרגה 11 (18+)", "320 ₪", "370 ₪"],
+                  ["מחבואים + הקבר + דרגה 11", "320 ₪", "370 ₪"],
                 ].map(([l, p, was]) => (
                   <li key={l} className="flex items-center justify-between gap-3 border-b border-border/40 py-1.5 last:border-none">
                     <span className="text-muted-foreground">{l}</span>
@@ -298,6 +283,16 @@ function HomeContent() {
             {settings.instagram && (
               <a href={settings.instagram} target="_blank" rel="noreferrer" className="btn btn-ghost btn-lg">
                 <Instagram className="h-4 w-4" aria-hidden /> Instagram
+              </a>
+            )}
+            {settings.tiktok && (
+              <a href={settings.tiktok} target="_blank" rel="noreferrer" className="btn btn-ghost btn-lg">
+                <Music2 className="h-4 w-4" aria-hidden /> TikTok
+              </a>
+            )}
+            {settings.whatsapp && (
+              <a href={`https://wa.me/${settings.whatsapp.replace(/\D/g, "")}`} target="_blank" rel="noreferrer" className="btn btn-whatsapp btn-lg">
+                <MessageCircle className="h-4 w-4" aria-hidden /> WhatsApp
               </a>
             )}
           </div>

@@ -4,7 +4,7 @@ import { Suspense } from "react";
 import { roomsQuery, settingsQuery, roomImage, whatsappHref, telHref } from "@/lib/site-data";
 import { SiteNav, SiteFooter } from "@/components/site-nav";
 import { FloatingActions } from "@/components/floating-actions";
-import { Flame, Timer, Users, Clock, Phone, MessageCircle, Tag, UserCheck, ArrowRight, CalendarDays } from "lucide-react";
+import { Timer, Users, Clock, Phone, MessageCircle, Tag, ArrowRight, CalendarDays } from "lucide-react";
 
 export const Route = createFileRoute("/rooms/$slug")({
   loader: async ({ context, params }) => {
@@ -18,8 +18,8 @@ export const Route = createFileRoute("/rooms/$slug")({
   },
   head: ({ loaderData }) => {
     const r = loaderData?.room;
-    const title = r ? `${r.name} — Crazy Mary` : "חדר — Crazy Mary";
-    const desc = r?.description || "חדר בריחה במתחם הפחד של ישראל.";
+    const title = r ? `${r.name} — קרייזי מרי` : "חדר — קרייזי מרי";
+    const desc = r?.description || "משחק פחד במתחם הפחד של ירושלים.";
     const image = r ? roomImage(r) : undefined;
     const meta: { title?: string; name?: string; property?: string; content?: string }[] = [
       { title },
@@ -62,13 +62,11 @@ function RoomPage() {
   const wa = whatsappHref(settings, `אני מעוניין/ת לשריין את החדר "${room.name}"`);
 
   const stats = [
-    { icon: Flame, label: "קושי", value: room.difficulty },
     { icon: Timer, label: "משך", value: room.duration },
     { icon: Users, label: "שחקנים", value: room.players },
-    room.min_age && { icon: UserCheck, label: "גיל", value: room.min_age },
     room.price && { icon: Tag, label: "מחיר", value: room.price },
     (room.hours || settings.hours) && { icon: Clock, label: "שעות", value: room.hours || settings.hours },
-  ].filter(Boolean) as { icon: typeof Flame; label: string; value: string }[];
+  ].filter(Boolean) as { icon: typeof Timer; label: string; value: string }[];
 
   return (
     <div className="min-h-screen">

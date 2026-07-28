@@ -4,14 +4,14 @@ import { Suspense } from "react";
 import { roomsQuery, settingsQuery, roomImage } from "@/lib/site-data";
 import { SiteNav, SiteFooter } from "@/components/site-nav";
 import { FloatingActions } from "@/components/floating-actions";
-import { Flame, Timer, Users, KeyRound } from "lucide-react";
+import { Timer, Users, KeyRound } from "lucide-react";
 
 export const Route = createFileRoute("/rooms/")({
   head: () => ({
     meta: [
-      { title: "החדרים — Crazy Mary" },
-      { name: "description", content: "4 חוויות אימה במתחם הפחד של ישראל: מבוך הפחד, הקבר, מחבואים בחושך ו-Zombie Shot." },
-      { property: "og:title", content: "החדרים — Crazy Mary" },
+      { title: "החדרים — קרייזי מרי" },
+      { name: "description", content: "ארבע אטרקציות פחד במתחם הפחד של ירושלים: חדר בריחה, מבוך אימה, מחבואים בחושך וזומבישוט." },
+      { property: "og:title", content: "החדרים — קרייזי מרי" },
       { property: "og:description", content: "4 אטרקציות. כל אחת עולם שלם." },
     ],
   }),
@@ -67,7 +67,6 @@ function RoomsContent() {
                   <h2 className="mt-2 font-display text-2xl uppercase tracking-wider sm:text-3xl">{room.name}</h2>
                   <p className="mt-3 text-sm text-muted-foreground">{room.description}</p>
                   <div className="mt-4 flex flex-wrap gap-3 text-xs text-muted-foreground sm:gap-4">
-                    <span className="inline-flex items-center gap-1.5"><Flame className="h-3.5 w-3.5 text-primary" aria-hidden /> {room.difficulty}</span>
                     <span className="inline-flex items-center gap-1.5"><Timer className="h-3.5 w-3.5 text-accent" aria-hidden /> {room.duration}</span>
                     <span className="inline-flex items-center gap-1.5"><Users className="h-3.5 w-3.5 text-accent" aria-hidden /> {room.players}</span>
                   </div>

@@ -23,12 +23,12 @@ export const Route = createFileRoute("/booking/$slug")({
     const room = loaderData?.room;
     return {
       meta: [
-        { title: room ? `הזמנת תור — ${room.name}` : "הזמנת תור — Crazy Mary" },
+        { title: room ? `הזמנת תור — ${room.name}` : "הזמנת תור — קרייזי מרי" },
         {
           name: "description",
           content: room
-            ? `בחרו תאריך, שעה והשאירו פרטים להזמנת ${room.name} במתחם הפחד של ישראל.`
-            : "בחרו תאריך, שעה והשאירו פרטים להזמנה במתחם הפחד של ישראל.",
+            ? `בחרו תאריך, שעה והשאירו פרטים להזמנת ${room.name} במתחם הפחד של ירושלים.`
+            : "בחרו תאריך, שעה והשאירו פרטים להזמנה במתחם הפחד של ירושלים.",
         },
       ],
       links: [{ rel: "canonical", href: room ? `/booking/${room.slug}` : "/rooms" }],

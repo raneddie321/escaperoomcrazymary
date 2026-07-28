@@ -8,9 +8,9 @@ import { FloatingActions } from "@/components/floating-actions";
 export const Route = createFileRoute("/about")({
   head: () => ({
     meta: [
-      { title: "אודות — Crazy Mary" },
-      { name: "description", content: "הסיפור מאחורי Crazy Mary — מתחם הפחד של ישראל." },
-      { property: "og:title", content: "אודות — Crazy Mary" },
+      { title: "אודות — קרייזי מרי" },
+      { name: "description", content: "הסיפור מאחורי קרייזי מרי — מתחם הפחד של ירושלים." },
+      { property: "og:title", content: "אודות — קרייזי מרי" },
       { property: "og:description", content: "הסיפור מאחורי המתחם ואיך נולדו החדרים." },
     ],
     links: [{ rel: "canonical", href: "/about" }],

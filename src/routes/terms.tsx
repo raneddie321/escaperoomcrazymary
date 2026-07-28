@@ -8,10 +8,10 @@ import { FloatingActions } from "@/components/floating-actions";
 export const Route = createFileRoute("/terms")({
   head: () => ({
     meta: [
-      { title: "תנאי שימוש — Crazy Mary" },
-      { name: "description", content: "תנאי השימוש של אתר Crazy Mary — הזמנות, ביטולים ואחריות." },
-      { property: "og:title", content: "תנאי שימוש — Crazy Mary" },
-      { property: "og:description", content: "תנאי השימוש באתר Crazy Mary." },
+      { title: "תנאי שימוש — קרייזי מרי" },
+      { name: "description", content: "תנאי השימוש של אתר קרייזי מרי — הזמנות, ביטולים ואחריות." },
+      { property: "og:title", content: "תנאי שימוש — קרייזי מרי" },
+      { property: "og:description", content: "תנאי השימוש באתר קרייזי מרי." },
     ],
     links: [{ rel: "canonical", href: "/terms" }],
   }),
@@ -28,7 +28,7 @@ function Terms() {
         <h1 className="font-display text-4xl uppercase tracking-wider text-glow">תנאי שימוש</h1>
         <div className="ember-divider mt-4 w-40" />
         <div className="mt-8 space-y-5 text-muted-foreground">
-          <p>השימוש באתר {s.business_name || "Crazy Mary"} ובשירותיו כפוף לתנאים המפורטים להלן. גלישה באתר או ביצוע הזמנה מהווים הסכמה לתנאים.</p>
+          <p>השימוש באתר {s.business_name || "קרייזי מרי"} ובשירותיו כפוף לתנאים המפורטים להלן. גלישה באתר או ביצוע הזמנה מהווים הסכמה לתנאים.</p>
 
           <h2 className="pt-4 font-display text-2xl text-foreground">כללי</h2>
           <p>האתר נועד להצגת האטרקציות, פרטי המתחם וקבלת פניות. המידע המוצג עשוי להשתנות מעת לעת ואינו מהווה התחייבות.</p>
@@ -43,7 +43,7 @@ function Terms() {
           <p>ההשתתפות בחדרי הבריחה היא באחריות המשתתפים. יש למלא אחר הוראות ההפעלה ולציית לצוות המקום. אנו רשאים להפסיק פעילות של משתתף המתנהג בצורה שאינה הולמת.</p>
 
           <h2 className="pt-4 font-display text-2xl text-foreground">קניין רוחני</h2>
-          <p>כל התכנים באתר — לרבות טקסטים, תמונות ועיצוב — הם בבעלות {s.business_name || "Crazy Mary"}. אין להעתיק או להפיץ תכנים ללא אישור בכתב.</p>
+          <p>כל התכנים באתר — לרבות טקסטים, תמונות ועיצוב — הם בבעלות {s.business_name || "קרייזי מרי"}. אין להעתיק או להפיץ תכנים ללא אישור בכתב.</p>
 
           <h2 className="pt-4 font-display text-2xl text-foreground">שיפוט</h2>
           <p>על תנאים אלה יחול הדין הישראלי בלבד. סמכות השיפוט הבלעדית תהיה לבתי המשפט המוסמכים בירושלים.</p>

@@ -8,10 +8,10 @@ import { FloatingActions } from "@/components/floating-actions";
 export const Route = createFileRoute("/privacy")({
   head: () => ({
     meta: [
-      { title: "מדיניות פרטיות — Crazy Mary" },
-      { name: "description", content: "מדיניות הפרטיות של Crazy Mary — איזה מידע נאסף, למה ולמי הוא מועבר." },
-      { property: "og:title", content: "מדיניות פרטיות — Crazy Mary" },
-      { property: "og:description", content: "מדיניות הפרטיות של אתר Crazy Mary." },
+      { title: "מדיניות פרטיות — קרייזי מרי" },
+      { name: "description", content: "מדיניות הפרטיות של קרייזי מרי — איזה מידע נאסף, למה ולמי הוא מועבר." },
+      { property: "og:title", content: "מדיניות פרטיות — קרייזי מרי" },
+      { property: "og:description", content: "מדיניות הפרטיות של אתר קרייזי מרי." },
     ],
     links: [{ rel: "canonical", href: "/privacy" }],
   }),
@@ -30,7 +30,7 @@ function Privacy() {
         <h1 className="font-display text-4xl uppercase tracking-wider text-glow">מדיניות פרטיות</h1>
         <div className="ember-divider mt-4 w-40" />
         <div className="mt-8 space-y-5 text-muted-foreground">
-          <p>מדיניות זו מסבירה איזה מידע נאסף עליכם בעת שימוש באתר {s.business_name || "Crazy Mary"} וכיצד אנו משתמשים בו.</p>
+          <p>מדיניות זו מסבירה איזה מידע נאסף עליכם בעת שימוש באתר {s.business_name || "קרייזי מרי"} וכיצד אנו משתמשים בו.</p>
 
           <h2 className="pt-4 font-display text-2xl text-foreground">איזה מידע נאסף</h2>
           <p>כאשר אתם פונים אלינו דרך טופס יצירת קשר, וואטסאפ או טלפון, אנו אוספים את שמכם, מספר הטלפון, כתובת האימייל ותוכן הפניה. במידה ותסכימו במפורש, אנו עשויים לשמור את פרטיכם לצורך פניה חוזרת.</p>
